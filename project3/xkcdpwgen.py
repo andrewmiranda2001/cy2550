@@ -17,20 +17,21 @@ def generate_password(words, caps, numbers, symbols):
         word_to_capitalize = random.choice(password_words)
         password_words = [word.capitalize() if word == word_to_capitalize else word for word in password_words]
 
-    # Convert the list of words to a single string
-    password = "".join(password_words)
+    # Convert the list of words to a list of characters
+    password = password_words
 
     # Add random numbers
     for _ in range(numbers):
-        position = random.randint(0, len(password))
-        password = password[:position] + str(random.randint(0,9)) + password[position:]
+        position = random.randint(1, len(password))  # Positions start from 1 to insert between words
+        password.insert(position, str(random.randint(0,9)))
 
     # Add random symbols
     for _ in range(symbols):
-        position = random.randint(0, len(password))
-        password = password[:position] + random.choice(string.punctuation) + password[position:]
+        position = random.randint(1, len(password))  # Positions start from 1 to insert between words
+        password.insert(position, random.choice(string.punctuation))
 
-    return password
+    # Convert the list of characters back into a string
+    return "".join(password)
 
 def main():
     parser = argparse.ArgumentParser(description='Generate a secure, memorable password using the XKCD method')
